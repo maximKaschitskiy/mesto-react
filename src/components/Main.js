@@ -11,8 +11,10 @@ function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOp
         .then(
           (response) => {
             setProfileInfo(response);
-          }
-      )
+          })
+        .catch((err) => {
+          console.log(err);
+        })
     }, []);
 
     const [items, setItems] = React.useState([]);
@@ -21,8 +23,10 @@ function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOp
         .then(
           (response) => {
             setItems(response);
-          }
-      )
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }, [])
 
     return (

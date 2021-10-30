@@ -17,7 +17,6 @@ function Card ( { items, owner, onCardClick } ) {
   }
 
     return (
-    <>
       <div className="elements__element">
         <TrashbinIcon owner={ owner } />
           <a className="elements__picture-link" target="_self" onClick={handleCardClick}>
@@ -31,7 +30,6 @@ function Card ( { items, owner, onCardClick } ) {
           </div>
         </div>
       </div>
-    </>
     )
 }
 

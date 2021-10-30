@@ -46,7 +46,6 @@ function handleAddPlaceClick() {
 }
 
   return (
-    <>
         <div className="page">
           <Header />
           <Main
@@ -61,7 +60,6 @@ function handleAddPlaceClick() {
           <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closePopups} />
           <ImagePopup isOpen={isImagePopupOpen} card={selectedCard} onClose={closePopups} />
         </div>
-    </>
   );
 }
 
