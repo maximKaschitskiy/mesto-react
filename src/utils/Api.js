@@ -17,7 +17,7 @@ class Api {
             })
             .then(this._checkResponse.bind(this))
           } 
-    setUserInfo(nameValue, aboutValue) { //contenttype
+    setUserInfo(nameValue, aboutValue) {
         return fetch(`${this.baseUrl}` + '/users/me', {
             method: 'PATCH',
             headers: this.header,
@@ -28,7 +28,7 @@ class Api {
         })
         .then(this._checkResponse.bind(this))
       } 
-    setUserPic(linkValue) { //contenttype
+    setUserPic(linkValue) {
         return fetch(`${this.baseUrl}` + '/users/me/avatar', {
             method: 'PATCH',
             headers: this.header,
@@ -38,7 +38,7 @@ class Api {
         })
         .then(this._checkResponse.bind(this))
       } 
-    postCard(values) { //contenttype
+    postCard(values) {
         return fetch(`${this.baseUrl}` + '/cards', {
             method: 'POST',
             headers: this.header,
