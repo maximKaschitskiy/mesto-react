@@ -1,8 +1,5 @@
 import React from 'react';
 
-import headerLogo from '../images/header/header__logo.svg';
-import profileImage from '../images/profile/image.png';
-
 import Header from '../components/Header.js';
 import Main from '../components/Main.js';
 import Footer from '../components/Footer.js';
@@ -26,6 +23,8 @@ const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 const [selectedCard, setSelectedCard] = React.useState(null);
 const [currentUser, setCurrentUser] = React.useState({});
 const [cards, setCards] = React.useState([]);
+const [onLoad, setOnload] = React.useState(false);
+
 
 function closePopups() {
   setIsAddPlacePopupOpen(false);
@@ -64,6 +63,89 @@ function handleEscKeydown (event) {
   }
 }
 
+function handleUpdateUser(event) {
+    setOnload(true);
+    addApi.setUserInfo(event.name, event.about)
+    .then(
+      (response) => {
+        setCurrentUser(response);
+      })
+    .then(
+      () => {
+        closePopups();
+      })
+    .catch((err) => {
+        console.log(err);
+    })
+    .finally(
+      ()=> {
+        setOnload(false);
+    });
+  }
+
+function handleAddCard(event) {
+    setOnload(true);
+    addApi.postCard(event)
+    .then(
+      (response) => {
+        setCards([ response,
+          ...cards
+        ]);
+      })
+    .then(
+      () => {
+        closePopups();
+      })
+    .catch((err) => {
+        console.log(err);
+    })
+    .finally(
+      ()=> {
+        setOnload(false);
+    });
+  }
+
+  function handleDeleteCard(event) {
+    setOnload(true);
+    addApi.deleteCard(event._id)
+    .then(() => {
+      setCards(cards.filter((c) =>
+        c._id !== event._id
+       ));
+      })
+    .then(
+      () => {
+        closePopups();
+      })
+    .catch((err) => {
+        console.log(err);
+      })
+    .finally(
+      ()=> {
+        setOnload(false);
+    }); 
+  }
+
+  function hadleEditUserpic(event) {
+    setOnload(true);
+    addApi.setUserPic(event.avatar)
+    .then(
+      (response) => {
+        setCurrentUser(response);
+      })
+    .then(
+      () => {
+        closePopups();
+      })
+    .catch((err) => {
+        console.log(err);
+      })
+    .finally(
+      ()=> {
+        setOnload(false);
+    });
+  }
+
 React.useEffect(() => {
   addApi.getUserInfo()
     .then(
@@ -97,17 +179,14 @@ React.useEffect(() => {
                 isAddPlacePopupOpen={handleAddPlaceClick}
                 onCardClick={handleCardClick}
                 onCardDel={handleCardDel}
+                cards={cards}
               />
             </CardItemsContext.Provider>
           <Footer />
-          <CardItemsContext.Provider value={[cards, setCards]}>
-            <PopupDeleteCard isOpen={isDeleteCardPopupOpen} onClose={closePopups} card={selectedCard} />
-          </CardItemsContext.Provider>
-          <PopupAvatarEdit isOpen={isEditAvatarPopupOpen} onClose={closePopups} />
-          <PopupProfileEdit isOpen={isEditProfilePopupOpen} onClose={closePopups} />
-          <CardItemsContext.Provider value={[cards, setCards]}>
-            <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closePopups} />
-          </CardItemsContext.Provider>
+          <PopupDeleteCard isOpen={isDeleteCardPopupOpen} onClose={closePopups} card={selectedCard} onDeleteCard={handleDeleteCard} onLoad={onLoad} />
+          <PopupAvatarEdit isOpen={isEditAvatarPopupOpen} onClose={closePopups} onChangeUserpic={hadleEditUserpic} onLoad={onLoad} />
+          <PopupProfileEdit isOpen={isEditProfilePopupOpen} onClose={closePopups} onUpdateUser={handleUpdateUser} onLoad={onLoad}/>
+          <PopupAddPlace isOpen={isAddPlacePopupOpen} onClose={closePopups} onAddPlace={handleAddCard} onLoad={onLoad}/>
           <ImagePopup isOpen={isImagePopupOpen} onClose={closePopups} card={selectedCard} />
         </div>
       </CurrentUserContext.Provider>

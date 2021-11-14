@@ -1,52 +1,47 @@
 import React from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
-import CardItemsContext from '../contexts/CardItemsContext.js';
 
-import addApi from '../utils/Api.js';
-
-
-function Card ( { items, owner, onCardClick, onCardLike, onCardDel } ) {
+function Card ( { item, owner, onCardClick, onCardLike, onCardDel } ) {
 
   const [liked, setLiked] = React.useState(false);
   
-  const [cards, setCards] = React.useContext(CardItemsContext);
-  const [currentUser, setCurrentUser] = React.useContext(CurrentUserContext);
+  const [currentUser] = React.useContext(CurrentUserContext);
 
   const handleCardClick = function () {
-    onCardClick(items)
+    onCardClick(item)
   }
   
   const handleCardLike = function () {
-    onCardLike(items)
+    onCardLike(item)
   }
 
   const handleCardDelete = function () {
-    onCardDel(items)
+    onCardDel(item)
   }
 
   React.useEffect(() => {
-    if (items.likes.some(i => i._id === currentUser._id)) {
+    if (item.likes.some(i => i._id === currentUser._id)) {
       setLiked(true);
     } else {
       setLiked(false);
     };
-  }, [items.likes.length]);
+  }, [item.likes, currentUser._id]);
 
     return (
       <div className="elements__element">
         {
           owner 
-          ? <button className="elements__delete-button" type="button" onClick={()=>{handleCardDelete(items)}} ></button>
+          ? <button className="elements__delete-button" type="button" onClick={()=>{handleCardDelete(item)}} ></button>
           : null
         }
-          <a className="elements__picture-link" target="_self" onClick={handleCardClick}>
-            <img className="elements__picture" alt={items.name} src={items.link}/>
+          <a className="elements__picture-link" href="/#" target="_self" onClick={handleCardClick}>
+            <img className="elements__picture" alt={item.name} src={item.link}/>
           </a>
         <div className="elements__caption">
-          <h2 className="elements__caption-text">{items.name}</h2>
+          <h2 className="elements__caption-text">{item.name}</h2>
           <div className="elements__like">
-          <button className={`elements__like-button ${liked ? 'elements__like-button_active' : ''}`} type="button" onClick={()=>{handleCardLike(items)}}></button>
-            <span className="elements__like-count">{items.likes.length}</span>
+          <button className={`elements__like-button ${liked ? 'elements__like-button_active' : ''}`} type="button" onClick={()=>{handleCardLike(item)}}></button>
+            <span className="elements__like-count">{item.likes.length}</span>
           </div>
         </div>
       </div>

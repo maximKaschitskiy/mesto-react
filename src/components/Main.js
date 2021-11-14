@@ -8,7 +8,7 @@ import CardItemsContext from '../contexts/CardItemsContext.js';
 
 function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, onCardDel, onCardClick} ) {
 
-  const [currentUser, setCurrentUser] = React.useContext(CurrentUserContext);
+  const [currentUser] = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useContext(CardItemsContext);
 
   const changeLikeCardStatus = async function (card, isLiked) {
@@ -32,7 +32,7 @@ function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOp
       );
       setCards(newCards);
     })
-    .catch(err => console.error(err))
+    .catch(err => console.error(err));
   }
 
     return (
@@ -51,14 +51,15 @@ function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOp
         </section>
         <section className="elements">
         {cards && cards.map((item) => {
-        return (
+          return (
             <Card 
-            items={item} 
+            item={item} 
             owner={item.owner._id === currentUser._id}
             onCardClick={onCardClick}
             onCardDel={onCardDel}
             onCardLike={()=>{handleCardLike(item)}}
-            key={item._id} />
+            key={item._id}
+            />
             )
           }
         )}
