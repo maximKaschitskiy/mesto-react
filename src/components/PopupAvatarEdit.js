@@ -24,7 +24,7 @@ function PopupAvatarEdit( {isOpen, onClose, onLoad, onChangeUserpic} ) {
   React.useEffect(() => {
     setInputField( {avatar: currentUser.avatar
                   } );
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
 
   return (

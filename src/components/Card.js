@@ -34,7 +34,7 @@ function Card ( { item, owner, onCardClick, onCardLike, onCardDel } ) {
           ? <button className="elements__delete-button" type="button" onClick={()=>{handleCardDelete(item)}} ></button>
           : null
         }
-          <a className="elements__picture-link" href="/#" target="_self" onClick={handleCardClick}>
+          <a className="elements__picture-link" href="#/" target="_self" onClick={handleCardClick}>
             <img className="elements__picture" alt={item.name} src={item.link}/>
           </a>
         <div className="elements__caption">

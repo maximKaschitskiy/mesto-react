@@ -1,39 +1,16 @@
 import React from 'react';
 
-import addApi from '../utils/Api.js';
 import Card from '../components/Card.js';
 
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
-import CardItemsContext from '../contexts/CardItemsContext.js';
 
-function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, onCardDel, onCardClick} ) {
+function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, onCardDel, onCardClick, cards, setCards, onCardLike} ) {
 
   const [currentUser] = React.useContext(CurrentUserContext);
-  const [cards, setCards] = React.useContext(CardItemsContext);
 
-  const changeLikeCardStatus = async function (card, isLiked) {
-    if (isLiked) {
-      let res = await addApi.unLikeCard(card)
-      return res;
-    } else {
-      let res= await addApi.likeCard(card);
-      return res;
-    }
-  }
-
-  const handleCardLike = function (card) {
-    const isLiked = card.likes.some((i) =>
-      i._id === currentUser._id
-    );
-    changeLikeCardStatus(card._id, isLiked)
-    .then((newCard) => {
-      const newCards = cards.map((c) =>
-        c._id === card._id ? newCard : c
-      );
-      setCards(newCards);
-    })
-    .catch(err => console.error(err));
-  }
+  const handleLikeButton = (event) => {
+    onCardLike(event);
+}
 
     return (
       <main>
@@ -57,7 +34,7 @@ function Main( {isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOp
             owner={item.owner._id === currentUser._id}
             onCardClick={onCardClick}
             onCardDel={onCardDel}
-            onCardLike={()=>{handleCardLike(item)}}
+            onCardLike={(item)=>{handleLikeButton(item)}}
             key={item._id}
             />
             )

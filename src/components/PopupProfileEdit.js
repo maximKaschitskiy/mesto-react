@@ -27,7 +27,7 @@ function PopupProfileEdit( {isOpen, onClose, onUpdateUser, resetForm, onLoad } )
     setInputField( {name: currentUser.name,
                     about: currentUser.about
                   } );
-  }, [currentUser]); 
+  }, [currentUser, isOpen]); 
 
   return (
     <PopupWithForm

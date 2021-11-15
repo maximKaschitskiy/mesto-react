@@ -4,6 +4,7 @@ import PopupWithForm from './PopupWithForm.js';
 
 function PopupAddPlace( {isOpen, onClose, formTitle, buttonTitle, onAddPlace, onLoad} ) {
 
+
   const [inputField, setInputField] = React.useState({
     name: '',
     link: ''
@@ -21,6 +22,13 @@ function PopupAddPlace( {isOpen, onClose, formTitle, buttonTitle, onAddPlace, on
     event.target.reset();
 }
 
+React.useEffect(() => {
+  setInputField({
+    name: '',
+    link: ''
+  });
+}, [isOpen]);
+
   return (
     <>
     <PopupWithForm
@@ -33,9 +41,9 @@ function PopupAddPlace( {isOpen, onClose, formTitle, buttonTitle, onAddPlace, on
     buttonTitleLoading={"Создание..."}
     onSubmit={handleSubmit}
     >
-      <input type="text" placeholder="Название" className="popup__form-input popup__form-input_field_place-name" name="name" id="place-name-field"  onChange={(event)=>{handleChange(event)}}/>
+      <input value={inputField.name} type="text" placeholder="Название" className="popup__form-input popup__form-input_field_place-name" name="name" id="place-name-field"  onChange={(event)=>{handleChange(event)}}/>
       <span className="popup__form-error-text popup__form-error-text_message_place-name place-name-field-error"></span>
-      <input type="url" placeholder="Ссылка на картинку" className="popup__form-input popup__form-input_field_picture-link" name="link" id="picture-link-field"  onChange={(event)=>{handleChange(event)}}/>
+      <input value={inputField.link} type="url" placeholder="Ссылка на картинку" className="popup__form-input popup__form-input_field_picture-link" name="link" id="picture-link-field"  onChange={(event)=>{handleChange(event)}}/>
       <span className="popup__form-error-text popup__form-error-text_message_picture-link picture-link-field-error"></span>
     </PopupWithForm>
     </>
